@@ -4,6 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ComplianceOS</title>
+    <script>
+const _f = window.fetch;
+window.fetch = function(url, opts) {
+  if (typeof url === 'string' && url.includes('api.anthropic.com')) {
+    return _f('/api/ai', opts);
+  }
+  return _f(url, opts);
+};
+    </script>
   </head>
   <body>
     <div id="root"></div>
