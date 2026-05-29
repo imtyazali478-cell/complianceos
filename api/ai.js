@@ -11,7 +11,8 @@ export default async function handler(req, res) {
     content: [{type:'text', text:'API key missing'}] 
   });
 
-  try {
+  try {const finalBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+finalBody.model = 'claude-haiku-4-5-20251001';
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
         'x-api-key': key,
         'anthropic-version': '2023-06-01'
       },
-     body: JSON.stringify({...req.body, model: 'claude-haiku-4-5-20251001'})
+     body: JSON.stringify(finalBody)
     });
     
     if (!response.ok) {
